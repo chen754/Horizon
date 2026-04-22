@@ -2,18 +2,56 @@
   "version": "1.0",
   "ai": {
     "provider": "gemini",
-    "model": "gemini-1.5-flash",
+    "model": "gemini-2.0-flash",
     "api_key_env": "GOOGLE_API_KEY",
     "temperature": 0.3,
     "max_tokens": 8192,
-    "languages": ["zh", "en"]
+    "languages": [
+      "zh",
+      "en"
+    ]
+  },
+  "email": {
+    "enabled": false,
+    "smtp_server": "smtp.qq.com",
+    "smtp_port": 465,
+    "imap_server": "imap.qq.com",
+    "imap_port": 993,
+    "email_address": "xxx@qq.com",
+    "sender_name": "Horizon Daily",
+    "subscribe_keyword": "SUBSCRIBE",
+    "unsubscribe_keyword": "UNSUBSCRIBE"
   },
   "sources": {
-    "github": [],
+    "github": [
+      {
+        "type": "user_events",
+        "username": "karpathy",
+        "enabled": true
+      },
+      {
+        "type": "repo_releases",
+        "owner": "vllm-project",
+        "repo": "vllm",
+        "enabled": true
+      },
+      {
+        "type": "repo_releases",
+        "owner": "sgl-project",
+        "repo": "sglang",
+        "enabled": true
+      },
+      {
+        "type": "repo_releases",
+        "owner": "triton-lang",
+        "repo": "triton",
+        "enabled": true
+      }
+    ],
     "hackernews": {
       "enabled": true,
-      "fetch_top_stories": 2,
-      "min_score": 200
+      "fetch_top_stories": 15,
+      "min_score": 100
     },
     "rss": [
       {
@@ -21,10 +59,49 @@
         "url": "https://simonwillison.net/atom/everything/",
         "enabled": true,
         "category": "ai-tools"
+      },
+      {
+        "name": "GitHub Trending - Daily",
+        "url": "https://mshibanami.github.io/GitHubTrendingRSS/daily/all.xml",
+        "enabled": true,
+        "category": "github-trending"
+      },
+      {
+        "name": "LWN.net",
+        "url": "https://lwn.net/headlines/full_text?key=${LWN_KEY}",
+        "enabled": false,
+        "category": "linux-kernel"
       }
     ],
     "reddit": {
-      "enabled": false
+      "enabled": false,
+      "subreddits": [
+        {
+          "subreddit": "MachineLearning",
+          "enabled": true,
+          "sort": "hot",
+          "time_filter": "day",
+          "fetch_limit": 10,
+          "min_score": 50
+        },
+        {
+          "subreddit": "LocalLLaMA",
+          "enabled": true,
+          "sort": "hot",
+          "time_filter": "day",
+          "fetch_limit": 10,
+          "min_score": 50
+        }
+      ],
+      "users": [
+        {
+          "username": "iamthatis",
+          "enabled": true,
+          "sort": "new",
+          "fetch_limit": 5
+        }
+      ],
+      "fetch_comments": 5
     },
     "telegram": {
       "enabled": true,
@@ -32,13 +109,13 @@
         {
           "channel": "zaihuapd",
           "enabled": true,
-          "fetch_limit": 2
+          "fetch_limit": 20
         }
       ]
     }
   },
   "filtering": {
-    "ai_score_threshold": 0.0,
+    "ai_score_threshold": 5.0,
     "time_window_hours": 24
   }
 }
